@@ -12,8 +12,6 @@ type connectionsArray = {
 	[int]: RBXScriptConnection
 }
 
-type CFrame = Vector3 --cframes arent used in type checking yet
-
 local baselineAPI
 
 local date = os.date
