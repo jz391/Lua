@@ -1,9 +1,9 @@
-local Plrs = game:GetService("Players")
 local TServ = game:GetService("TweenService")
+local Plrs = game:GetService("Players")
 local LP = game.Players.LocalPlayer
 local mouse = LP:GetMouse()
-local refreshUis = Instance.new("BindableEvent")
 
+local refreshUis = Instance.new("BindableEvent")
 local mainUi = Instance.new("ScreenGui")
 local mainFrame = Instance.new("Frame")
 
@@ -14,10 +14,7 @@ local basePos = UDim2.new(0.01, 0, 0.55, 0)
 local padding = UDim2.new(0, 0, 0.02, 0)
 local frame_YLength
 
-local abs = math.abs
-local suffixes = {"k", "M", "B", "T", "Qd", "Qn"}
-
-do --precreate mainUI for quicker(?) cloning
+do --create mainUI beforehand for quicker(?) cloning
 	mainUi.Name = "HPBar"
 	mainUi.ResetOnSpawn = true
 
@@ -117,6 +114,8 @@ do --precreate mainUI for quicker(?) cloning
 	frame_YLength = mainFrame.nameHolder.Size.Y.Scale*mainFrame.Size.Y.Scale + mainFrame.Size.Y.Scale + padding.Y.Scale
 end
 
+local abs = math.abs
+local suffixes = {"k", "M", "B", "T", "Qd", "Qn"}
 local function suffixNum(number)
 	number = math.floor(number+0.5)
 	local dpsAbs = tostring(abs(number))
@@ -171,7 +170,6 @@ function HPBarModule.setBasePos(givenInfo:UDim2)
 	refreshUis:Fire()
 end
 
---ill just put three useles, repeated-ish functions here so its mor friendly
 function HPBarModule:editEvents(delete, ...)
 	local eventsToEdit = {...}
 	local eventsTab = self.events
