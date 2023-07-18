@@ -33,7 +33,7 @@ local LPEvents = {
 local suffixes = {"k", "M", "B", "T", "Qd", "Qn", "Sx", "Sp", "O", "N", "D", "U", "DD"}
 local charTable = ('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890!@#$%^&*()'):split('')
 
--- wait for game to load (this api can ensure that your game loads before your script starts)
+-- wait for game to load
 if not game.Loaded then game.Loaded:Wait() end
 
 -- in-game variables
@@ -123,7 +123,7 @@ coroutine.wrap(function() -- refresh variables and call connections when player 
 end)()
 
 baselineAPI = {
-	['ver'] = 1.1,
+	['ver'] = 1,
 
 	-- local player stuff
 	['LocalPlayer'] = LP,
