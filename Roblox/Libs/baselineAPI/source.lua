@@ -128,7 +128,10 @@ baselineAPI = {
 	-- local player stuff
 	['LocalPlayer'] = LP,
 	['name'] = LPName,
-	['character'] = function(dontYield: boolean) --dontYield: whether the function should yield until the object exists
+	
+	-- character, humanoidRoot, and humanoid
+	-- dontYield: whether the function should yield until the object exists
+	['character'] = function(dontYield: boolean)
 		character = character or (not dontYield and charAdded:Wait())
 		return character or nil
 	end,
@@ -140,24 +143,30 @@ baselineAPI = {
 		humanoid = (humanoid and humanoid.Parent) or (not dontYield and humanoidAdded.Event:Wait())
 		return humanoid or nil
 	end,
-	["onCharacterEvent"] = function(eventType, callback) --charDied is only fired when your humanoid dies, which wont happen if your humanoid is deleted
-		eventType = LPEvents[eventType]
+	
+	-- onCharacterEvent
+	-- eventType: type of event (look at the LPEvents table)
+	-- callback: function to be called when the event is fired
+	["onCharacterEvent"] = function(eventType: string, callback: (...any) -> any?) --charDied is only fired when your humanoid dies, which wont happen if your humanoid is deleted
+		local eventType = LPEvents[eventType]
 		if not eventType then 
 			local warnStr = eventType .. " is not a valid argument. Valid arguments are:\n"
 			for key:string in pairs(LPEvents) do
 				warnStr = warnStr..key.."\n"
 			end
 			warn(warnStr)
+			return
 		end
+		
 		local index
 		for i = 1, eventType.length+1 do
 			if eventType[i] then continue end
 			index = i
 		end        
-		eventType.length += 1 -- increment custom length (caus canot get # of elements in dictionaries :<)
-		eventType[index] = callback -- claims a spot in the table
+		eventType.length += 1 -- increment for a new spot
+		eventType[index] = callback -- claims the spot in the array
 
-		local connection = {} -- uhm very limited version of rbxscriptsignal
+		local connection = {} -- very limited variant of rbxscriptconnection
 		function connection:Disconnect()
 			eventType[index] = nil -- deletes the event from the table
 		end
