@@ -136,13 +136,22 @@ baselineAPI = {
 		return character or nil
 	end,
 	['humanoidRoot'] = function(dontYield: boolean?)
-		hRoot = (hRoot and hRoot.Parent) or (not dontYield and hRootAdded.Event:Wait())
+		if not (hRoot and hRoot.Parent) then
+			local newRoot = (not dontYield and hRootAdded.Event:Wait())	
+			if newRoot then hRoot = newRoot end
+		end
+		
 		return hRoot or nil
 	end,
 	['humanoid'] = function(dontYield: boolean?) 
-		humanoid = (humanoid and humanoid.Parent) or (not dontYield and humanoidAdded.Event:Wait())
+		if not (humanoid and humanoid.Parent) then
+			local newHumanoid = (not dontYield and humanoidAdded.Event:Wait())
+			if newHumanoid then humanoid = newHumanoid end 
+		end
+		
 		return humanoid or nil
 	end,
+
 	
 	-- onCharacterEvent
 	-- eventType: type of event (look at the LPEvents table)
