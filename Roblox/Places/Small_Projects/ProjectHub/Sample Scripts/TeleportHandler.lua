@@ -1,4 +1,4 @@
--- this script handles teleports to my other Roblox projects
+-- this script handles teleports to my other Roblox projects from the server
 local TpServ = game:GetService("TeleportService")
 local notifRemote = game:GetService("ReplicatedStorage"):WaitForChild("PromptNotify")
 
