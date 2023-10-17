@@ -7,7 +7,7 @@ game:GetService("ProximityPromptService").PromptTriggered:Connect(function(promp
 	
 	print("Attempting to teleport player ("..plr.Name..")\nPlace Name:", promptObj.Parent.SG.Text.Text, "\nPlace Id:", id)
 	notifRemote:FireClient(plr)
-	TpServ:Teleport(id, plr)
+	TpServ:Teleport(id, plr) --teleport the player
 end)
 
 local enumStrLength = tostring(Enum.TeleportResult):len()
@@ -20,5 +20,5 @@ local failedTP = TpServ.TeleportInitFailed:Connect(function(plr, tpResult, error
 		errorMsg = errorMsg or "No other info given"
 	end
 	warn("Error teleporting", plr.name, "\nError enum:", errorEnum, "\nError message:", errorMsg)
-	notifRemote:FireClient(plr, errorEnum, errorMsg)
+	notifRemote:FireClient(plr, errorEnum, errorMsg) -- notifies player of issue when teleporting
 end)
