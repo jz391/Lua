@@ -2,7 +2,7 @@
 local TpServ = game:GetService("TeleportService")
 local notifRemote = game:GetService("ReplicatedStorage"):WaitForChild("PromptNotify")
 
-game:GetService("ProximityPromptService").PromptTriggered:Connect(function(promptObj, plr)
+game:GetService("ProximityPromptService").PromptTriggered:Connect(function(promptObj, plr) -- this event is activated when the player activates a prompt
 	local id = promptObj:WaitForChild("ID").Value
 	
 	print("Attempting to teleport player ("..plr.Name..")\nPlace Name:", promptObj.Parent.SG.Text.Text, "\nPlace Id:", id)
