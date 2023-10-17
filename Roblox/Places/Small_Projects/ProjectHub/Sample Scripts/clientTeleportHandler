@@ -1,0 +1,33 @@
+-- this script keeps the player updated on the teleport status
+local TweenServ = game:GetService("TweenService")
+local promptNotifRemote = game:GetService("ReplicatedStorage"):WaitForChild("PromptNotify")
+local plrGui = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+local tpGui = plrGui:WaitForChild("TeleportNotifyGui")
+
+local tInfo = TweenInfo.new(4.3)
+local tGoal = {['BackgroundTransparency'] = 1, ['TextTransparency'] = 1}
+promptNotifRemote.OnClientEvent:Connect(function(errorEnum, errorMsg)
+	local tpGuiClone = tpGui:Clone()
+	local msg = tpGuiClone:WaitForChild("Message")
+	local waitTime = 1
+
+	if errorEnum then -- error messages from the teleport request sent to server
+		msg.Text = "Error type: "..errorEnum.."\n Additional info: "..errorMsg 
+		msg.TextColor3 = Color3.new(1, 1, 1)
+		msg.BackgroundColor3 = Color3.new(0.6, 0, 0)
+		waitTime += 2
+	else
+		msg.Text = "Teleporting, hang on"
+	end
+	
+	tpGuiClone.Enabled = true
+	tpGuiClone.Parent = plrGui
+	local tween = TweenServ:Create(tpGuiClone:WaitForChild("Message"), tInfo, tGoal)
+	
+	task.wait(waitTime)
+	tween:Play()
+	tween.Completed:Wait()
+	tween = nil
+	tpGuiClone:Destroy()
+	return
+end)
