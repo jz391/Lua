@@ -1,4 +1,4 @@
--- server script
+-- local script (client script)
 local rs = game:GetService("ReplicatedStorage")
 local uis = game:GetService("UserInputService")
 local handle = script:FindFirstAncestor("Handle")
@@ -22,7 +22,7 @@ local function shoot()
 		local rayparams = RaycastParams.new()
 		local result = workspace:Raycast(orig, goal, rayparams)
 		local endPos = result and result.Position or mouse.Hit.Position
-		rs.pew:FireServer(endPos)
+		rs.pew:FireServer(endPos) -- fires the remote event, notifying the server
 	end
 	wait(0.5)
 	cooldown = false
