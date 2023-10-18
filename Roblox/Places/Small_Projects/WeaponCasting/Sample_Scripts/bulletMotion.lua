@@ -1,4 +1,4 @@
-
+-- server script (this script will be duplicated and run after the player's gun is fired) 
 local PlayerService = game:GetService("Players")
 local Weapons = require(game:GetService("ServerStorage").Weapons)
 local bullet = script.Parent
