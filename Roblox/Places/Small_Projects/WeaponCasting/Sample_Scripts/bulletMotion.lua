@@ -6,6 +6,7 @@ local bullet = script.Parent
 local PLR_ID = bullet.plrId.Value -- player id of this gun owner
 local DMG = Weapons["Gun"].Damage
 local SPEED = 70
+local FORCE_VEC = Vector3.new(SPEED/2, SPEED/2, SPEED/2)
 
 local touchConnection
 touchConnection = bullet.Touched:Connect(function(hitPart)
@@ -22,12 +23,10 @@ touchConnection = bullet.Touched:Connect(function(hitPart)
 	touchConnection:Disconnect() --prevent event from retriggering the function
 
 	coroutine.wrap(function() -- creates a new thread (kind of)
-		if modelHumanoid and modelHumanoid.Health > 0 then
+		if not hitPart:IsGrounded() then
+			hitPart.Velocity = (hitPart.Position-bullet.Position).Unit * FORCE_VEC
+		elseif modelHumanoid and modelHumanoid.Health > 0 then
 			hitModel.Humanoid:TakeDamage(DMG) --damages player (could also damage NPC)
-		elseif not hitPart:IsGrounded() then
-			hitPart.Transparency *= 0.5
-			task.wait(0.17)
-			hitPart:Destroy()
 		end
 	end)()
 	
