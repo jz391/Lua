@@ -25,12 +25,7 @@ pew.OnServerEvent:Connect(function(plr, info)
 
 	if not gun then return end
 	bulet.plr.Value = plr.Name
-	
-	--[[
-	bulet.dirs.dirX.Value = infotab[1]
-	bulet.dirs.dirY.Value = infotab[2]
-	bulet.dirs.dirZ.Value = infotab[3]
-	]]
+
 	bulet.Position = gun.Position
 	
 	bulet.CFrame = CFrame.lookAt(bulet.Position, info)
