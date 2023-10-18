@@ -1,4 +1,4 @@
--- this is the valuescript mentioned in Server.lua
+-- this is under the valscript variable mentioned in Server.lua
 
 local rs = game:GetService("ReplicatedStorage")
 
