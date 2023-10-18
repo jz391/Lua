@@ -1,4 +1,4 @@
--- making a client script for this is unneccesary, this server script is distributed to the player upon entering
+-- making a client script for this is unneccesary, this server script is distributed to each player upon entering
 
 local players = game:GetService("Players")
 local servstore = game:GetService("ServerStorage")
