@@ -1,3 +1,4 @@
+-- server script
 local rs = game:GetService("ReplicatedStorage")
 local ss = game:GetService("ServerStorage")
 local debri = game:GetService("Debris")
