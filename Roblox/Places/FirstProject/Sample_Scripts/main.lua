@@ -9,7 +9,7 @@ game:GetService("RunService").RenderStepped:Connect(function()
 	a.SurfaceLight.Color = Color3.new(math.random(), math.random(), math.random())
 end)
 
-[[
+--[[
 originally was this old code, until it was recently updated
 
 while true do
