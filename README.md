@@ -9,6 +9,7 @@
 
 [more about the Roblox Studio engine](https://create.roblox.com/docs/studio)
 ***  
+Date Created: Dec 7, 2020
 <ins>First Project (while loops)</ins> preview and 
 [sample script](https://github.com/jz391/Lua/tree/c005201bf7be9dc33b6c709b919c9fedd52d793d/Roblox/Places/FirstProject/Sample_Scripts)
 
