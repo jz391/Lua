@@ -7,7 +7,7 @@
 
 <h2> Works created using the Roblox Studio engine </h2>
 
-[more about the Roblox Studio engine](https://create.roblox.com/docs/studio)
+[More about the Roblox Studio engine](https://create.roblox.com/docs/studio)
 ***  
 Date Created: Dec 7, 2020  
 <ins>First Project (while loops)</ins> preview and 
