@@ -1,1 +1,1 @@
-This has been removed, refer to the new [readme file](https://github.com/jz391/Lua/blob/08dc407c5f5d8b556e6698629db727a5f6e5cfed/Roblox/README.md)
+This has been removed, refer to the new [readme file](https://github.com/jz391/Lua/blob/8146a10970f5c8eba8613a6ca3e478efb46d9d96/README.md)
