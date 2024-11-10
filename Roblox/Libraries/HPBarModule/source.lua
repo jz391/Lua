@@ -205,15 +205,15 @@ function HPBarModule:editInitFuncs(delete, ...) -- add your function that initia
 end
 
 
-function HPBarModule:removeFormatting(fromModule)
-	if not fromModule then warn("pls set the table's bypassUiFormat value to true instead") return end
+function HPBarModule:removeFormatting(callFromModule)
+	if not callFromModule then warn("pls set the table's bypassUiFormat value to true instead") return end
 	refreshUis:Fire(self.frame:GetAttribute("frameOrder"))
 	self.frame:SetAttribute("frameOrder", nil)
 end
 
-function HPBarModule:removeBar(fromModule)
+function HPBarModule:removeBar(callFromModule)
 	print("Deleting bar")
-	if not fromModule then warn("pls set the table's delete value to true instead") return end
+	if not callFromModule then warn("set the bartable's delete value to true instead. the table was returned upon invoking .newBar") return end
 	local frame, eventsTab, funcsTab = self.frame, {self.initEvents, self.events}, self.initFuncs
 	if frame:FindFirstChild("nameHolder") then frame.nameHolder.Text = "Removing..." end
 	for i in pairs(funcsTab) do
@@ -289,7 +289,7 @@ function HPBarModule.newBar(charModel: Model | Player, propTab:table) -- padding
 		["initFuncs"] = {},
 		["refreshOnRespawn"] = propTab.refreshOnRespawn or false --refresh gui on respawn
 	}
-	
+
 	if propTab.bypassUiFormat == false then
 		refreshUiFunc = function(startPos:UDim2, destroyingFrameOrder)
 			if not startPos or typeof(startPos) ~= 'UDim2' then startPos = frame.Position end
