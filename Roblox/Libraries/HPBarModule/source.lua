@@ -132,7 +132,7 @@ local function suffixNum(number)
 	return (number < 0 and "-" or "")..dpsAbs --string (not the absolute value in the end)
 end
 
-local function getHP(humanoid:Humanoid)
+local function getHP(humanoid: Humanoid)
 	if not humanoid then return nil end
 	local percent = math.floor((humanoid.Health/humanoid.MaxHealth) * 100)
 	local hp, hpMax = humanoid.Health, humanoid.MaxHealth
@@ -196,7 +196,7 @@ function HPBarModule:editInitEvents(delete, ...) --initevents are disconnected e
 		eventsTab[(not tonumber(name) and name) or #eventsTab] = event --if you dont enter key pair with events, they can't be deleted unless the gui's X button is clicked
 	end
 end
-function HPBarModule:editInitFuncs(delete,...) -- add your function that initializes the init events
+function HPBarModule:editInitFuncs(delete, ...) -- add your function that initializes the init events
 	local funcsToAdd = {...}
 	local funcsTab = self.initFuncs
 	for _, func in pairs(funcsToAdd) do
@@ -226,12 +226,12 @@ function HPBarModule:removeBar(fromModule)
 		eventsTab[i] = nil
 	end
 	eventsTab, funcsTab = nil
-	
+
 	coroutine.wrap(function()
 		local goal = {Position = UDim2.new(-0.5, 0, frame.Position.Y.Scale, 0)}
 		local tween = TServ:Create(frame, defaultInfo_Ui, goal)
 		tween:Play()
-			
+
 		self.bypassUiFormat = true
 		tween.Completed:Wait()
 
@@ -249,7 +249,8 @@ function HPBarModule:removeBar(fromModule)
 	end)()
 end
 
-function HPBarModule.newBar(charModel:ModelOrPlayer, propTab:table) -- padding is a number 1 to 1000 (scales a whole screen's length at 1000)
+-- constructor here:
+function HPBarModule.newBar(charModel: Model | Player, propTab:table) -- padding is a number 1 to 1000 (scales a whole screen's length at 1000)
 	print("Creating tab")
 	propTab = propTab or {}
 
@@ -277,12 +278,24 @@ function HPBarModule.newBar(charModel:ModelOrPlayer, propTab:table) -- padding i
 
 	frame:SetAttribute("frameOrder", getNonBypassedBars())
 
+	local mainTab = {
+		["bypassUiFormat"] = propTab.bypassUiFormat or false,
+		["delete"] = false
+	}
+	local barTab = {
+		["frame"] = frame,
+		["initEvents"] = {refreshEvent or nil}, --init events are reconnected upon death as stated in HPBarModule:editInitEvents
+		["events"] = {}, --put events here to prevent memory leak
+		["initFuncs"] = {},
+		["refreshOnRespawn"] = propTab.refreshOnRespawn or false --refresh gui on respawn
+	}
+	
 	if propTab.bypassUiFormat == false then
 		refreshUiFunc = function(startPos:UDim2, destroyingFrameOrder)
 			if not startPos or typeof(startPos) ~= 'UDim2' then startPos = frame.Position end
 			local currFrameOrder = frame:GetAttribute("frameOrder")
 			if not currFrameOrder then return end
-			
+
 			if destroyingFrameOrder and destroyingFrameOrder <= currFrameOrder then
 				currFrameOrder = currFrameOrder - 1
 				frame:SetAttribute("frameOrder", currFrameOrder)
@@ -315,17 +328,6 @@ function HPBarModule.newBar(charModel:ModelOrPlayer, propTab:table) -- padding i
 		refreshUiFunc(basePos)
 	end
 
-	local mainTab = {
-		["bypassUiFormat"] = propTab.bypassUiFormat or false,
-		["delete"] = false
-	}
-	local barTab = {
-		["frame"] = frame,
-		["initEvents"] = {refreshEvent or nil}, --init events are reconnected upon death as stated in HPBarModule:editInitEvents
-		["events"] = {}, --put events here to prevent memory leak
-		["initFuncs"] = {},
-		["refreshOnRespawn"] = propTab.refreshOnRespawn or false --refresh gui on respawn
-	}
 	setmetatable(mainTab, HPBarModule)
 	setmetatable(barTab, {
 		__index = mainTab--[[function(_, i, v)
@@ -347,16 +349,16 @@ function HPBarModule.newBar(charModel:ModelOrPlayer, propTab:table) -- padding i
 	local function updateHP(init)
 		local healthDiff = math.floor(human.Health - healthOld)
 		if healthDiff == 0 and human.MaxHealth == maxHealthOld and init == nil then return end
-		
+
 		local percentNew = (human.Health/human.MaxHealth)*100
 		local percentDiff = math.floor((percentNew-percentOld)*100)/100
 		print("HDiff, percNew, percDiff", healthDiff, percentNew, percentDiff)
-		
+
 		if not (frame and frame:FindFirstChild("healthBar") and frame:FindFirstChild("notifyChange")) then return end
 		local healthInfo, percent = getHP(human)
 		local goal = {Size = UDim2.new(percent/100, 0, frame.healthBar.Size.Y.Scale, 0)}
 		local tween = TServ:Create(frame.healthBar, defaultInfo_HP, goal)
-		
+
 		coroutine.wrap(function()
 			if not frame or not frame:FindFirstChild("noHealth") then return end
 			local noHealth = frame.noHealth
@@ -371,7 +373,7 @@ function HPBarModule.newBar(charModel:ModelOrPlayer, propTab:table) -- padding i
 		notifChange.Parent = frame
 		notifChange.Visible = true
 		local notifyMoveGoal = {['Position'] = UDim2.new(notifChange.Position.X.Scale, 0, notifChange.Position.Y.Scale + 0.65, 0)}
-		
+
 		if healthDiff >= 0 then
 			notifyMoveGoal = {['Position'] = UDim2.new(notifyMoveGoal['Position'].X.Scale, 0, -notifyMoveGoal['Position'].Y.Scale, 0)}
 			if percentDiff == 0 then 
@@ -434,7 +436,7 @@ function HPBarModule.newBar(charModel:ModelOrPlayer, propTab:table) -- padding i
 			player and player.CharacterRemoving:Connect(DeathFunc)
 		)
 	end
-	
+
 	barTab:editInitFuncs(
 		false,
 		updateHP,
